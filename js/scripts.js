@@ -73,7 +73,7 @@ var ObtenerData = {
               const contenedor = document.getElementById('cont_elemens');
 
 
-                for (const dato of datos) {
+                for (const dato of data) {
                    
 
                         const nuevoDiv = document.createElement('div');
