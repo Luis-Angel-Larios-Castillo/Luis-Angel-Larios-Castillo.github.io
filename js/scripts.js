@@ -68,6 +68,75 @@ var ObtenerData = {
           .then(data => {
             // Procesar los datos de respuesta
             console.log(data);
+
+
+              const contenedor = document.getElementById('cont_elemens');
+
+
+                for (const dato of datos) {
+                   
+
+                        const nuevoDiv = document.createElement('div');
+                        nuevoDiv.classList.add('col-lg-4', 'col-sm-6', 'mb-4', 'mb-lg-0');
+                        
+                        
+                        const portfolioItem = document.createElement('div');
+                        portfolioItem.classList.add('portfolio-item');
+                        
+                        const enlace = document.createElement('a');
+                        enlace.classList.add('portfolio-link');
+                        enlace.setAttribute('data-bs-toggle', 'modal');
+                        enlace.href = '#portfolioModal1';
+                        
+                        
+                        const portfolioHover = document.createElement('div');
+                        portfolioHover.classList.add('portfolio-hover');
+                        
+                        
+                        const portfolioHoverContent = document.createElement('div');
+                        portfolioHoverContent.classList.add('portfolio-hover-content');
+                        
+                        
+                        const icono = document.createElement('i');
+                        icono.classList.add('fas', 'fa-plus', 'fa-3x');
+                        
+                        portfolioHoverContent.appendChild(icono);
+                        portfolioHover.appendChild(portfolioHoverContent);
+                        
+                        
+                        const imagen = document.createElement('img');
+                        imagen.classList.add('img-fluid');
+                        imagen.src = 'assets/img/portfolio/dia_de_muertos.png';
+                        imagen.alt = '...';
+                        
+                        
+                        enlace.appendChild(portfolioHover);
+                        enlace.appendChild(imagen);
+                        portfolioItem.appendChild(enlace);
+                        
+                        const portfolioCaption = document.createElement('div');
+                        portfolioCaption.classList.add('portfolio-caption');
+                        
+                        const titulo = document.createElement('div');
+                        titulo.classList.add('portfolio-caption-heading');
+                        titulo.textContent = 'Animación para halloween';
+                        
+                        
+                        const subtitulo = document.createElement('div');
+                        subtitulo.classList.add('portfolio-caption-subheading', 'text-muted');
+                        subtitulo.textContent = 'Nov, 2018 / Diseño';
+                        
+                        portfolioCaption.appendChild(titulo);
+                        portfolioCaption.appendChild(subtitulo);
+                        portfolioItem.appendChild(portfolioCaption);
+                        nuevoDiv.appendChild(portfolioItem);
+                        document.body.appendChild(nuevoDiv);
+
+                    
+                    
+                    contenedor.appendChild(nuevoDiv);
+                  }
+              
           })
           .catch(error => {
             console.error('Error al obtener los datos:', error);
