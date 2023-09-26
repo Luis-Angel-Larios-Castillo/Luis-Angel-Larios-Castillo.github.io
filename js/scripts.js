@@ -52,3 +52,23 @@ window.addEventListener('DOMContentLoaded', event => {
     });
 
 });
+
+var ObtenerData = {
+    publicaciones: () => {
+        const url = 'https://web-personal-wicho.000webhostapp.com/api/publicaciones/consulta.php';
+        fetch(url)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('La solicitud no fue exitosa');
+            }
+            return response.json();
+          })
+          .then(data => {
+            // Procesar los datos de respuesta
+            console.log(data);
+          })
+          .catch(error => {
+            console.error('Error al obtener los datos:', error);
+          });
+    }
+}
