@@ -134,7 +134,7 @@ var ObtenerData = {
 
                     
                     
-                    contenedor.appendChild(nuevoDiv);
+                    cont_elemens.appendChild(nuevoDiv);
                   }
               
           })
