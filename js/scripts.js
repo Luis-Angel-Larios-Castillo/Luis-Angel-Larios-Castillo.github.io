@@ -106,7 +106,7 @@ var ObtenerData = {
                         
                         const imagen = document.createElement('img');
                         imagen.classList.add('img-fluid');
-                        imagen.src = 'assets/img/portfolio/dia_de_muertos.png';
+                        imagen.src = 'https://www.muycomputerpro.com/wp-content/uploads/2018/02/lenguajes-programacion.jpg';
                         imagen.alt = '...';
                         
                         
