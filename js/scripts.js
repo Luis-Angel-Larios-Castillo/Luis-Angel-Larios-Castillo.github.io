@@ -119,7 +119,7 @@ var ObtenerData = {
                         
                         const titulo = document.createElement('div');
                         titulo.classList.add('portfolio-caption-heading');
-                        titulo.textContent = 'Animación para halloween';
+                        titulo.textContent = dato.encabezado;
                         
                         
                         const subtitulo = document.createElement('div');
