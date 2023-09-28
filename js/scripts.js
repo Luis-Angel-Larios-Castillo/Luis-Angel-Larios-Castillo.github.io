@@ -106,7 +106,7 @@ var ObtenerData = {
                         
                         const imagen = document.createElement('img');
                         imagen.classList.add('img-fluid');
-                        imagen.src = 'https://web-personal-wicho.000webhostapp.com/api/publicaciones/get_image.php?t='+dato.t+'&&n='+dato.n;
+                        imagen.src = 'https://web-personal-wicho.000webhostapp.com/api/resourses/get_image.php?t='+dato.t+'&&n='+dato.n;
                         imagen.alt = '...';
                         
                         
