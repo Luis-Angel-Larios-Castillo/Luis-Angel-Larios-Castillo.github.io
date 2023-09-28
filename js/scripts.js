@@ -72,9 +72,9 @@ var ObtenerData = {
 
               const contenedor = document.getElementById('cont_elemens');
 
-
+let i =0;
                 for (const dato of data) {
-                   
+                   i ++;
 
                         const nuevoDiv = document.createElement('div');
                         nuevoDiv.classList.add('col-lg-4', 'col-sm-6', 'mb-4', 'mb-lg-0');
@@ -86,7 +86,7 @@ var ObtenerData = {
                         const enlace = document.createElement('a');
                         enlace.classList.add('portfolio-link');
                         enlace.setAttribute('data-bs-toggle', 'modal');
-                        enlace.href = '#portfolioModal1';
+                        enlace.href = '#portfolioModal'+i;
                         
                         
                         const portfolioHover = document.createElement('div');
@@ -135,6 +135,64 @@ var ObtenerData = {
                     
                     
                     cont_elemens.appendChild(nuevoDiv);
+
+
+
+
+
+                                            // Crear el elemento div con la clase y el id especificados
+                        var divPortfolioModal = document.createElement('div');
+                        divPortfolioModal.classList.add('portfolio-modal', 'modal', 'fade');
+                        divPortfolioModal.id = 'portfolioModal'+i;
+                        
+                        // Crear la estructura interna del modal
+                        divPortfolioModal.innerHTML = `
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+                                    <div class="container">
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-12">
+                                                <div class="modal-body">
+                                                    <!-- Project details-->
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/dia_de_muertos.png" alt="..." />
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <h2 class="text-uppercase">`+ dato.encabezado+`</h2>
+                                                                <p>Proyecto realizado para la clase de multimedia, desarrollado con las herramientas de paquetería de adobe (Photoshop, Animate, AfterEffects ).</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <ul class="list-inline">
+                                                        <li>
+                                                            <strong>Categoría:</strong>
+                                                            Animación
+                                                        </li>
+                                                    </ul>
+                                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                                        <i class="fas fa-xmark me-1"></i>
+                                                        Cerrar Proyecto
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+                        `;
+                        
+                        // Agregar el elemento al body del documento
+                        document.body.appendChild(divPortfolioModal);
+
+                    
+
+                    
                   }
               
           })
