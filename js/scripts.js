@@ -124,7 +124,7 @@ var ObtenerData = {
                         
                         const subtitulo = document.createElement('div');
                         subtitulo.classList.add('portfolio-caption-subheading', 'text-muted');
-                        subtitulo.textContent = 'Nov, 2018 / Diseño';
+                        subtitulo.textContent = dato.subtitle;
                         
                         portfolioCaption.appendChild(titulo);
                         portfolioCaption.appendChild(subtitulo);
