@@ -151,7 +151,7 @@ var ObtenerData = {
                                                     <div class="container">
                                                         <div class="row">
                                                             <div class="col-lg-6">
-                                                                <img class="img-fluid d-block mx-auto" src="https://web-personal-wicho.000webhostapp.com/api/resourses/get_image.php?t= `+dato.t+ `&&n= `+dato.n +`" alt="..." />
+                                                                <img class="img-fluid d-block mx-auto" src="https://web-personal-wicho.000webhostapp.com/api/resourses/get_image.php?t=`+dato.t+`&&n=`+dato.n +`" alt="..." />
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <h2 class="text-uppercase">`+ dato.encabezado+`</h2>
