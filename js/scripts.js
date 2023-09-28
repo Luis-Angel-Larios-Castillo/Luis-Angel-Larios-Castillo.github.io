@@ -138,7 +138,7 @@ var ObtenerData = {
                         var divPortfolioModal = document.createElement('div');
                         divPortfolioModal.classList.add('portfolio-modal', 'modal', 'fade');
                         divPortfolioModal.id = 'portfolioModal'+i;
-                        
+                    
                         divPortfolioModal.innerHTML = `
                             <div class="modal-dialog">
                                 <div class="modal-content">
