@@ -131,21 +131,14 @@ var ObtenerData = {
                         portfolioItem.appendChild(portfolioCaption);
                         nuevoDiv.appendChild(portfolioItem);
                         document.body.appendChild(nuevoDiv);
-
-                    
                     
                     cont_elemens.appendChild(nuevoDiv);
 
 
-
-
-
-                                            // Crear el elemento div con la clase y el id especificados
                         var divPortfolioModal = document.createElement('div');
                         divPortfolioModal.classList.add('portfolio-modal', 'modal', 'fade');
                         divPortfolioModal.id = 'portfolioModal'+i;
                         
-                        // Crear la estructura interna del modal
                         divPortfolioModal.innerHTML = `
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -158,20 +151,14 @@ var ObtenerData = {
                                                     <div class="container">
                                                         <div class="row">
                                                             <div class="col-lg-6">
-                                                                <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/dia_de_muertos.png" alt="..." />
+                                                                <img class="img-fluid d-block mx-auto" src="https://web-personal-wicho.000webhostapp.com/api/resourses/get_image.php?t= `+dato.t+ `&&n= `+dato.n +`" alt="..." />
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <h2 class="text-uppercase">`+ dato.encabezado+`</h2>
-                                                                <p>Proyecto realizado para la clase de multimedia, desarrollado con las herramientas de paquetería de adobe (Photoshop, Animate, AfterEffects ).</p>
+                                                                <p> `+ dato.body+ `</p>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <ul class="list-inline">
-                                                        <li>
-                                                            <strong>Categoría:</strong>
-                                                            Animación
-                                                        </li>
-                                                    </ul>
                                                     <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
                                                         <i class="fas fa-xmark me-1"></i>
                                                         Cerrar Proyecto
@@ -187,11 +174,7 @@ var ObtenerData = {
                         </div>
                         `;
                         
-                        // Agregar el elemento al body del documento
                         document.body.appendChild(divPortfolioModal);
-
-                    
-
                     
                   }
               
