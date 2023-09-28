@@ -139,8 +139,8 @@ var ObtenerData = {
                         divPortfolioModal.classList.add('portfolio-modal', 'modal', 'fade');
                         divPortfolioModal.id = 'portfolioModal'+i;
 
-let imagen_modal = 'src="https://web-personal-wicho.000webhostapp.com/api/resourses/get_image.php?t='+dato.t +'&&n='+dato.n' +'"';
-                   // 
+let imagen_modal = 'src="https://web-personal-wicho.000webhostapp.com/api/resourses/get_image.php?t='+dato.t +'&&n='+dato.n +'"';
+                   
                     
                         divPortfolioModal.innerHTML = `
                             <div class="modal-dialog">
