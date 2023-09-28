@@ -106,7 +106,7 @@ var ObtenerData = {
                         
                         const imagen = document.createElement('img');
                         imagen.classList.add('img-fluid');
-                        imagen.src = 'https://www.muycomputerpro.com/wp-content/uploads/2018/02/lenguajes-programacion.jpg';
+                        imagen.src = 'https://web-personal-wicho.000webhostapp.com/api/publicaciones/get_image.php?t='+dato.t+'&&n='+dato.n;
                         imagen.alt = '...';
                         
                         
@@ -141,5 +141,7 @@ var ObtenerData = {
           .catch(error => {
             console.error('Error al obtener los datos:', error);
           });
-    }
+    },
+
+
 }
