@@ -72,7 +72,7 @@ var ObtenerData = {
 
               const contenedor = document.getElementById('cont_elemens');
 
-let i =0;
+            let i =0;
                 for (const dato of data) {
                    i ++;
 
