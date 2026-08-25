@@ -57,7 +57,7 @@ window.addEventListener('DOMContentLoaded', event => {
 
 var ObtenerData = {
     publicaciones: () => {
-        const url = 'https://web-personal-wicho.000webhostapp.com/api/publicaciones/consulta.php';
+        const url = 'https://web-personal-backend-ado8.onrender.com/index.php';
         fetch(url)
           .then(response => {
             if (!response.ok) {
