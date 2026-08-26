@@ -1,314 +1,378 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" data-tema="dark">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Mi Portafolio</title>
-    
-    <!-- Font Awesome icons (free version)-->
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-    <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="css/styles.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <script>
+    /* Aplica el tema ANTES de pintar la página, para que no haya
+       un parpadeo de fondo claro al cargar.
+       Cambia 'dark' por 'light' si quieres que arranque en claro. */
+    (function () {
+      var TEMA_POR_DEFECTO = 'dark';
+      var guardado = null;
+      try { guardado = localStorage.getItem('tema-portafolio'); } catch (e) {}
+      document.documentElement.setAttribute('data-tema', guardado || TEMA_POR_DEFECTO);
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luis Ángel Larios Castillo | Portafolio</title>
+  <meta name="description" content="Portafolio de Luis Ángel Larios Castillo, programador full stack. Sistemas web y aplicaciones móviles con PHP, Vue, Nuxt y React Native.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body id="page-top">
-    <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
-        <div class="container">
-            <a class="navbar-brand" href="#page-top">
-             <!-- <img src="assets/img/navbar-logo.svg" alt="..." />-->
-             Mi Portafolio
-         </a>
-         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            Menu
-            <i class="fas fa-bars ms-1"></i>
+<body>
+
+<div id="app" v-cloak>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header class="nav" :class="{ 'nav--scrolled': scrolled }">
+    <div class="container nav__inner">
+      <a href="#inicio" class="nav__logo" @click.prevent="irA('inicio')">
+        <span class="nav__logo-mark">{{ iniciales }}</span>
+        <span class="nav__logo-text">{{ perfil.nombre }}</span>
+      </a>
+
+      <nav class="nav__links" :class="{ 'is-open': menuAbierto }">
+        <a v-for="s in secciones"
+           :key="s.id"
+           :href="'#' + s.id"
+           class="nav__link"
+           :class="{ 'is-active': seccionActiva === s.id }"
+           @click.prevent="irA(s.id)">{{ s.nombre }}</a>
+      </nav>
+
+      <div class="nav__actions">
+        <button class="btn-icon" @click="alternarTema" :title="tema === 'dark' ? 'Modo claro' : 'Modo oscuro'">
+          <span v-if="tema === 'dark'">&#9728;</span><span v-else>&#9790;</span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                <li class="nav-item"><a class="nav-link" href="#acerca_de_mi">Acerca de mí</a></li>
-                <li class="nav-item"><a class="nav-link" href="#portfolio">Portafolio</a></li>
-                <li class="nav-item"><a class="nav-link" href="#Experiencia">Experiencia</a></li>
-                <li class="nav-item"><a class="nav-link" href="#habilidades">Habilidades</a></li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Curriculum
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="assets/pdf/Luis_Angel_Larios_Castillo.pdf" target="_blank">Programador</a></li>
-
-                    <li><a class="dropdown-item" href="https://github.com/Luis-Angel-Larios-Castillo?tab=repositories" target="_blank">Repositorios</a></li>
-                    
-                </ul>
-            </li>
-        </ul>
+        <button class="btn-icon nav__burger" @click="menuAbierto = !menuAbierto" title="Menú">
+          <span v-if="menuAbierto">&#10005;</span><span v-else>&#9776;</span>
+        </button>
+      </div>
     </div>
+  </header>
+
+  <main>
+
+    <!-- ===================== HERO ===================== -->
+    <section id="inicio" class="hero">
+      <!-- Fondo: usa tu imagen si definiste perfil.fondoHero, si no un patrón azul -->
+      <div class="hero__fondo"
+           :class="{ 'has-imagen': perfil.fondoHero }"
+           :style="perfil.fondoHero ? { backgroundImage: 'url(' + perfil.fondoHero + ')' } : null"></div>
+      <div v-if="perfil.fondoHero" class="hero__velo"></div>
+      <div class="hero__glow"></div>
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <p class="hero__eyebrow">
+            <span class="dot"></span> {{ perfil.disponibilidad }}
+          </p>
+          <h1 class="hero__title">
+            Hola, soy <span class="grad">{{ perfil.nombre }}</span>
+          </h1>
+          <h2 class="hero__role">
+            {{ rolActual }}<span class="cursor">|</span>
+          </h2>
+          <p class="hero__desc">{{ perfil.resumen }}</p>
+
+          <div class="hero__cta">
+            <button class="btn btn--primary" @click="irA('proyectos')">Ver proyectos</button>
+            <button class="btn btn--ghost" @click="irA('contacto')">Contáctame</button>
+          </div>
+
+          <div class="hero__social">
+            <a v-for="r in perfil.redes" :key="r.nombre" :href="r.url" target="_blank" rel="noopener"
+               class="social" :title="r.nombre">{{ r.icono }}</a>
+          </div>
+        </div>
+
+        <div class="hero__visual">
+          <div class="avatar">
+            <img v-if="perfil.foto" :src="perfil.foto" :alt="perfil.nombre">
+            <span v-else>{{ iniciales }}</span>
+          </div>
+          <div class="hero__stats">
+            <div class="stat" v-for="e in perfil.estadisticas" :key="e.etiqueta">
+              <strong>{{ e.valor }}</strong>
+              <span>{{ e.etiqueta }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SOBRE MÍ ===================== -->
+    <section id="sobre-mi" class="section reveal">
+      <div class="container">
+        <div class="section__head">
+          <span class="section__num">01</span>
+          <h2 class="section__title">Sobre mí</h2>
+        </div>
+        <div class="about">
+          <div class="about__text">
+            <!-- El primer párrafo se pinta como entradilla -->
+            <p v-for="(p, i) in perfil.bio" :key="i"
+               :class="{ 'about__lead': i === 0 }">{{ p }}</p>
+          </div>
+          <aside class="about__card card">
+            <div class="about__card-head">
+              <span class="about__card-mark" aria-hidden="true"></span>
+              <h3>Datos rápidos</h3>
+            </div>
+            <ul class="about__list">
+              <li v-for="d in perfil.datos" :key="d.etiqueta">
+                <span class="about__key">{{ d.etiqueta }}</span>
+                <span class="about__val">{{ d.valor }}</span>
+              </li>
+            </ul>
+            <a class="btn btn--primary btn--full btn--sm" :href="perfil.cv" download>
+              Descargar CV <span aria-hidden="true">&darr;</span>
+            </a>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PROYECTOS ===================== -->
+    <section id="proyectos" class="section reveal">
+      <div class="container">
+        <div class="section__head">
+          <span class="section__num">02</span>
+          <h2 class="section__title">Proyectos</h2>
+          <p class="section__sub">{{ proyectosFiltrados.length }} de {{ proyectos.length }} proyectos</p>
+        </div>
+
+        <!-- Filtros por tecnología -->
+        <div class="filtros">
+          <button class="chip" :class="{ 'is-active': filtro === 'todos' }" @click="filtro = 'todos'">
+            Todos <em>{{ proyectos.length }}</em>
+          </button>
+          <button v-for="t in tecnologias" :key="t.nombre"
+                  class="chip" :class="{ 'is-active': filtro === t.nombre }"
+                  @click="filtro = t.nombre">
+            {{ t.nombre }} <em>{{ t.total }}</em>
+          </button>
+        </div>
+
+        <!-- Grid de proyectos -->
+        <div class="grid">
+          <article v-for="p in proyectosFiltrados" :key="p.id"
+                   class="card proyecto" @click="abrirProyecto(p)">
+            <div class="proyecto__thumb" :style="{ background: p.color }">
+              <img v-if="p.imagen" :src="p.imagen" :alt="p.titulo" loading="lazy">
+              <span v-else class="proyecto__icono">{{ p.icono }}</span>
+              <span v-if="p.destacado" class="badge">Destacado</span>
+            </div>
+            <div class="proyecto__body">
+              <h3 class="proyecto__titulo">{{ p.titulo }}</h3>
+              <p class="proyecto__desc">{{ p.descripcion }}</p>
+              <ul class="tags">
+                <li v-for="t in p.tecnologias" :key="t" class="tag">{{ t }}</li>
+              </ul>
+            </div>
+            <div class="proyecto__pie">
+              <span class="proyecto__anio">{{ p.anio }}</span>
+              <span class="proyecto__mas">Ver detalle &rarr;</span>
+            </div>
+          </article>
+        </div>
+
+        <p v-if="!proyectosFiltrados.length" class="vacio">
+          No hay proyectos con esa tecnología todavía.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== HABILIDADES ===================== -->
+    <section id="habilidades" class="section reveal">
+      <div class="container">
+        <div class="section__head">
+          <span class="section__num">03</span>
+          <h2 class="section__title">Habilidades</h2>
+        </div>
+        <div class="skills">
+          <div v-for="g in habilidades" :key="g.categoria" class="card skills__grupo">
+            <h3 class="skills__cat">{{ g.icono }} {{ g.categoria }}</h3>
+            <div v-for="s in g.items" :key="s.nombre" class="skill">
+              <div class="skill__head">
+                <span class="skill__nombre">
+                  <img v-if="s.logo" class="skill__logo" :src="s.logo" :alt="s.nombre" loading="lazy">
+                  {{ s.nombre }}
+                </span>
+                <span class="skill__pct">{{ s.nivel }}%</span>
+              </div>
+              <div class="skill__bar">
+                <div class="skill__fill" :style="{ width: s.nivel + '%' }"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== EXPERIENCIA ===================== -->
+    <section id="experiencia" class="section reveal">
+      <div class="container">
+        <div class="section__head">
+          <span class="section__num">04</span>
+          <h2 class="section__title">Experiencia y formación</h2>
+        </div>
+        <ol class="timeline">
+          <li v-for="e in experiencia" :key="e.id" class="timeline__item">
+            <div class="timeline__punto"></div>
+            <div class="card timeline__card">
+              <div class="timeline__top">
+                <h3>{{ e.puesto }}</h3>
+                <span class="timeline__periodo">{{ e.periodo }}</span>
+              </div>
+              <!-- El logo lo define la API; sin él queda solo el nombre. -->
+              <p class="timeline__empresa">
+                <img v-if="e.logo" class="timeline__logo" :src="e.logo" :alt="e.empresa" loading="lazy">
+                <span>{{ e.empresa }}</span>
+              </p>
+              <p class="timeline__desc">{{ e.descripcion }}</p>
+              <ul class="tags">
+                <li v-for="t in e.tecnologias" :key="t" class="tag">{{ t }}</li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+
+        <!-- Formación académica -->
+        <h3 class="subtitulo">Formación académica</h3>
+        <div class="formacion">
+          <article v-for="f in educacion" :key="f.id" class="card formacion__item">
+            <span class="formacion__nivel">{{ f.nivel }}</span>
+            <h4 class="formacion__titulo">{{ f.titulo }}</h4>
+            <p class="formacion__institucion">{{ f.institucion }}</p>
+            <span class="formacion__periodo">{{ f.periodo }}</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACTO ===================== -->
+    <section id="contacto" class="section reveal">
+      <div class="container">
+        <div class="section__head">
+          <span class="section__num">05</span>
+          <h2 class="section__title">Contacto</h2>
+          <p class="section__sub">¿Tienes un proyecto en mente? Escríbeme.</p>
+        </div>
+
+        <div class="contacto">
+          <!-- Los datos vienen de la API (perfil.contacto). Los que no
+               traen enlace se pintan como texto, no como <a> vacío. -->
+          <div class="contacto__info">
+            <component v-for="c in contactoDirecto" :key="c.etiqueta + c.valor"
+                       :is="c.url ? 'a' : 'div'"
+                       :href="c.url || null"
+                       :target="c.url && !c.url.startsWith('mailto:') && !c.url.startsWith('tel:') ? '_blank' : null"
+                       :rel="c.url ? 'noopener' : null"
+                       class="card contacto__item"
+                       :class="{ 'contacto__item--plano': !c.url }">
+              <span class="contacto__icono">{{ c.icono }}</span>
+              <span class="contacto__texto">
+                <strong>{{ c.etiqueta }}</strong>
+                <em>{{ c.valor }}</em>
+              </span>
+            </component>
+          </div>
+
+          <form class="card contacto__form" @submit.prevent="enviarMensaje">
+            <div class="campo">
+              <label for="nombre">Nombre</label>
+              <input id="nombre" v-model.trim="formulario.nombre" type="text" required placeholder="Tu nombre">
+            </div>
+            <div class="campo">
+              <label for="email">Email</label>
+              <input id="email" v-model.trim="formulario.email" type="email" required placeholder="tu@email.com">
+            </div>
+            <div class="campo">
+              <label for="mensaje">Mensaje</label>
+              <textarea id="mensaje" v-model.trim="formulario.mensaje" rows="5" required
+                        placeholder="Cuéntame sobre tu proyecto..."></textarea>
+            </div>
+            <!-- Trampa anti-spam: oculta por CSS, no la ve nadie.
+                 Los bots rellenan todo lo que encuentran y se delatan. -->
+            <div class="trampa" aria-hidden="true">
+              <label for="sitio-web">No llenes este campo</label>
+              <input id="sitio-web" v-model.trim="formulario.sitioWeb"
+                     type="text" tabindex="-1" autocomplete="off">
+            </div>
+
+            <!-- El mensaje se manda a la API, que lo guarda en su archivo
+                 de mensajes. Si el envío falla, se abre el correo del
+                 visitante para que el mensaje no se pierda. -->
+            <button class="btn btn--primary btn--full" type="submit"
+                    :disabled="!formularioValido || enviando">
+              {{ enviando ? 'Enviando…' : 'Enviar mensaje' }}
+            </button>
+            <p v-if="avisoForm" class="aviso" :class="avisoOk ? 'aviso--ok' : 'aviso--error'"
+               role="status" aria-live="polite">{{ avisoForm }}</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>&copy; {{ anioActual }} {{ perfil.nombre }}. Hecho con Vue 3.</p>
+      <div class="footer__social">
+        <a v-for="r in perfil.redes" :key="r.nombre" :href="r.url" target="_blank" rel="noopener">{{ r.nombre }}</a>
+      </div>
+    </div>
+  </footer>
+
+  <button class="btn-top" :class="{ 'is-visible': scrolled }" @click="irA('inicio')" title="Ir arriba">&uarr;</button>
+
+  <!-- ===================== MODAL DE PROYECTO ===================== -->
+  <transition name="fade">
+    <div v-if="proyectoActivo" class="modal" @click.self="proyectoActivo = null">
+      <div class="modal__box">
+        <button class="modal__cerrar" @click="proyectoActivo = null">&#10005;</button>
+        <div class="modal__thumb" :style="{ background: proyectoActivo.color }">
+          <img v-if="proyectoActivo.imagen" :src="proyectoActivo.imagen" :alt="proyectoActivo.titulo">
+          <span v-else class="proyecto__icono">{{ proyectoActivo.icono }}</span>
+        </div>
+        <div class="modal__body">
+          <h3>{{ proyectoActivo.titulo }}</h3>
+          <p class="modal__meta">{{ proyectoActivo.anio }} &middot; {{ proyectoActivo.rol }}</p>
+          <p>{{ proyectoActivo.detalle || proyectoActivo.descripcion }}</p>
+
+          <template v-if="proyectoActivo.logros && proyectoActivo.logros.length">
+            <h4>Puntos clave</h4>
+            <ul class="modal__logros">
+              <li v-for="l in proyectoActivo.logros" :key="l">{{ l }}</li>
+            </ul>
+          </template>
+
+          <ul class="tags">
+            <li v-for="t in proyectoActivo.tecnologias" :key="t" class="tag">{{ t }}</li>
+          </ul>
+
+          <div v-if="proyectoActivo.demo || proyectoActivo.repo" class="modal__acciones">
+            <a v-if="proyectoActivo.demo" :href="proyectoActivo.demo" target="_blank" rel="noopener"
+               class="btn btn--primary btn--sm">Ver demo</a>
+            <a v-if="proyectoActivo.repo" :href="proyectoActivo.repo" target="_blank" rel="noopener"
+               class="btn btn--ghost btn--sm">Código fuente</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </transition>
 </div>
-</nav>
-<!-- Masthead-->
-<header class="masthead">
-    <div class="container">
-        <div class="masthead-subheading">Desarrollador Full Stack</div>
-        <div class="masthead-heading text-uppercase">Luis Angel Larios Castillo</div>
-        <a class="btn btn-primary btn-xl text-uppercase" href="#acerca_de_mi">ACERCA DE MÍ</a>
-    </div>
-</header>
-<!-- acerca_de_mi-->
-<section class="page-section" id="acerca_de_mi">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Acerca de mí</h2>
-            <h3 class="section-subheading text-muted">Programador full stack con más de un año de experiencia en el desarrollo de sitios y sistemas web. A lo largo de estos años, he tenido el privilegio de formar parte en la creación de grandes retos para una empresa internacional como lo es Motherson Group y Pixsoft una empresa de nivel regional, las cuales han contribuido en gran medida a mis conocimientos como desarrollador.</h3>
-        </div>
-        <div class="row text-center">
-            <div class="col-md-4">
-                <span class="fa-stack fa-4x">
-                    <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                    <i class="fas fa-solid fa-code fa-stack-1x fa-inverse"></i>
-                </span>
-                <h4 class="my-3">EXPERIENCIA</h4>
-                <p class="text-muted">En mi puesto actual como programador, he colaborado en sistemas web y aplicaciones móviles. Los cuales han contribuido en gran medida a mi experiencia y conocimientos en PHP, Vue, Nuxt, React, React Native.</p>
 
-            </div>
-            <div class="col-md-4">
-                <span class="fa-stack fa-4x">
-                    <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                    <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
-                </span>
-                <h4 class="my-3">INGENIERÍA</h4>
-                <p class="text-muted">
-                    <strong> INSTITUCIÓN: </strong>
-                    <br/>
-                    Universidad Tecnológica de Tlaxcala.
-                    <br/>
-                    <strong> TÍTULO: </strong>
-                    <br/>
-                    Ingeniería en Tecnologías de la Información (2019 - 2021). 
-                    <br/>
-
-                </p>
-            </div>
-            <div class="col-md-4">
-                <span class="fa-stack fa-4x">
-                    <i class="fas fa-circle fa-stack-2x text-primary"></i>
-
-                    <i class="fas fa-star fa-stack-1x fa-inverse"></i>
-                </span>
-                <h4 class="my-3">TÉCNICO</h4>
-                <p class="text-muted">
-                    <strong> TSU: </strong>
-                    <br/>
-                    Técnico Superior Universitario en Tecnologías de la información, comunicación área multimedia y comercio electrónico (2017- 2019).
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Portfolio Grid-->
-<section class="page-section bg-light" id="portfolio">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Portafolio</h2>
-            <h3 class="section-subheading text-muted">Dentro de mi experiencia he tenido la oportunidad de colaborar en la creación páginas, sistemas y aplicaciones móviles, entre otros proyectos digitales.</h3>
-        </div>
-        <div class="row" id="cont_elemens">
-
-        <!-- Aqui deberia de crear el bucle -->   
-     
-        </div>
-    </div>
-</section>
-<!-- experiencia-->
-<section class="page-section" id="Experiencia">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Experiencia</h2>
-            <h3 class="section-subheading text-muted">Mayo, 2019 - Actualidad.</h3>
-        </div>
-        <ul class="timeline">
-            <li>
-                <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/experiencia/logo_smp.png" alt="..." /></div>
-                <div class="timeline-panel">
-                    <div class="timeline-heading">
-                        <h4>Mayo, 2019 - Agosto, 2019</h4>
-                        <h4 class="subheading">Estadias como TSU en SMP</h4>
-                    </div>
-                    <div class="timeline-body"><p class="text-muted">Se realizó el sistema de gestión de incidencias de tiempo extraordinario, para el departamento de recursos humanos y capitación.</p></div>
-                </div>
-            </li>
-            <li class="timeline-inverted">
-                <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/experiencia/logo_motherson.png" alt="..." /></div>
-                <div class="timeline-panel">
-                    <div class="timeline-heading">
-                        <h4>Enero, 2021 - Abril, 2021</h4>
-                        <h4 class="subheading">Estadias como INGENIERO en Motherson</h4>
-                    </div>
-                    <div class="timeline-body"><p class="text-muted">Se incorpora el módulo de gestión de trasporte industrial al sistema de gestión de tiempo extraordinario, para el departamento de recursos humanos y nómina.</p></div>
-                </div>
-            </li>
-            <li>
-                <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/experiencia/pixsoft.jpg" alt="..." /></div>
-                <div class="timeline-panel">
-                    <div class="timeline-heading">
-                       <h4>Mayo, 2021 - Actualidad</h4>
-                       <h4 class="subheading">Desarrollador de software en Pixsoft</h4>
-                   </div>
-                   <div class="timeline-body"><p class="text-muted">Se realiza sistema de venta de calzado por catálogo, se realiza aplicación móvil para control de presidencias, se modifica sistema de control de inventario, se realiza sistema de control de gimnasio.</p></div>
-               </div>
-           </li>
-
-            <li class="timeline-inverted">
-                <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/experiencia/pixsoft.jpg" alt="..." /></div>
-                <div class="timeline-panel">
-                    <div class="timeline-heading">
-                        <h4>Mayo, 2022 - Abril, 2022</h4>
-                        <h4 class="subheading">Técnico en Pixsoft</h4>
-                    </div>
-                    <div class="timeline-body"><p class="text-muted">Instalación y mantenimiento a impresoras multifuncionales y copiadoras dentro de la intranet en ciudad judicial Apizaco, Tlaxcala.</p></div>
-                </div>
-            </li>
-
-           <li class="timeline-inverted">
-            <div class="timeline-image">
-                <h4>
-                    <br/>
-                    Actualidad
-                </h4>
-            </div>
-        </li>
-    </ul>
-</div>
-</section>
-<!-- HABILIDADES-->
-<section class="page-section bg-light" id="habilidades">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Conocimientos y habilidades</h2>
-            <h3 class="section-subheading text-muted">A lo largo de mi trayectoria como desarrollador de software he tenido la oportunidad de emplear algunos de los lenguajes y frameworks más  populares para cumplir mis objetivos.</h3>
-        </div>
-        <div class="row">
-            <div class="col-lg-1 mx-auto">
-                <div class="team-member">
-                    <img class="rounded-circle" src="assets/img/lenguajes/desarrollo/php.png" alt="..." />
-                </div>
-            </div>
-            <div class="col-lg-1 mx-auto">
-                <div class="team-member">
-                    <img class="rounded-circle" src="assets/img/lenguajes/desarrollo/androidstudio.png" alt="..." />
-                </div>
-            </div>
-            <div class="col-lg-1 mx-auto">
-                <div class="team-member">
-                    <img class="rounded-circle" src="assets/img/lenguajes/desarrollo/python.png" alt="..." />
-                </div>
-            </div>
-            <div class="col-lg-1 mx-auto">
-                <div class="team-member">
-                    <img class="rounded-circle" src="assets/img/lenguajes/desarrollo/django.jpg" alt="..." />
-                </div>
-            </div>
-            <div class="col-lg-1 mx-auto">
-                <div class="team-member">
-                    <img class="rounded-circle" src="assets/img/lenguajes/desarrollo/java-script.png" alt="..." />
-                </div>
-            </div>
-            <div class="col-lg-1 mx-auto">
-                <div class="team-member">
-                    <img class="rounded-circle" src="assets/img/lenguajes/desarrollo/vue.png" alt="..." />
-                </div>
-            </div>
-            <div class="col-lg-1 mx-auto">
-                <div class="team-member">
-                    <img class="rounded-circle" src="assets/img/lenguajes/desarrollo/nuxt.png" alt="..." />
-                </div>
-            </div>
-
-            
-            <div class="col-lg-1 mx-auto">
-                <div class="team-member">
-                    <img class="rounded-circle" src="assets/img/lenguajes/desarrollo/react.png" alt="..." />
-                </div>
-            </div>
-            <div class="col-lg-1 mx-auto">
-                <div class="team-member">
-                    <img class="rounded-circle" src="assets/img/lenguajes/desarrollo/vuetify.png" alt="..." />
-                </div>
-            </div>
-            <div class="col-lg-1 mx-auto">
-                <div class="team-member">
-                    <img class="rounded-circle" src="assets/img/lenguajes/desarrollo/material-ui.png" alt="..." />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-1 mx-auto">
-                <div class="team-member">
-                    <img class="rounded-circle" src="assets/img/lenguajes/desarrollo/bootstrap.png" alt="..." />
-                </div>
-            </div>
-            <div class="col-lg-1 mx-auto">
-                <div class="team-member">
-                    <img class="rounded-circle" src="assets/img/lenguajes/desarrollo/css-3.png" alt="..." />
-                </div>
-            </div>
-            <div class="col-lg-1 mx-auto">
-                <div class="team-member">
-                    <img class="rounded-circle" src="assets/img/lenguajes/desarrollo/html-5.png" alt="..." />
-                </div>
-            </div>
-            
-            
-            <div class="col-lg-1 mx-auto">
-                <div class="team-member">
-                    <img class="rounded-circle" src="assets/img/lenguajes/desarrollo/ionic.png" alt="..." />
-                </div>
-            </div>
-            <div class="col-lg-1 mx-auto">
-                <div class="team-member">
-                    <img class="rounded-circle" src="assets/img/lenguajes/disaing/xd.png" alt="..." />
-                </div>
-            </div>
-            <div class="col-lg-1 mx-auto">
-                <div class="team-member">
-                    <img class="rounded-circle" src="assets/img/lenguajes/disaing/photoshop.png" alt="..." />
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-
-<!-- Footer-->
-<footer class="footer py-4">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-4 text-lg-start">Copyright &copy; Luis Angel Larios Castillo 2022</div>
-            <div class="col-lg-4 my-3 my-lg-0">
-                <a class="btn btn-dark btn-social mx-2" href="https://github.com/Luis-Angel-Larios-Castillo?tab=repositories" aria-label="Github">
-                    <i class="fab fa-github"></i></a>
-                    <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-dark btn-social mx-2" href="https://www.linkedin.com/in/luis-angel-larios-castillo-259602210/" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-
-            </div>
-        </div>
-    </footer>
-    <!-- Portfolio Modals-->
-    <!-- Portfolio item 1 modal popup-->
-    
-
-
-
-
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script src="js/scripts.js"></script>
-
-<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+<!-- Vue 3 desde CDN -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<!-- Dirección de la API y tiempos de espera -->
+<script src="assets/js/config.js"></script>
+<!-- Copia local del contenido: la página pinta con esto de inmediato
+     y se actualiza cuando la API responde -->
+<script src="assets/js/respaldo.js"></script>
+<script src="assets/js/app.js"></script>
 </body>
 </html>
